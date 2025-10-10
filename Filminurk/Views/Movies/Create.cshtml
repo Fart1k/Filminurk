@@ -1,8 +1,6 @@
 ﻿@using Filminurk.Models.Movies
 @model Filminurk.Models.Movies.MoviesCreateViewModel
 
-
-
 <h1>Lisa Film</h1>
 <div>
 	<form method="post" enctype="multipart/form-data">
@@ -66,6 +64,7 @@
 			</label>
 		</div>
 		
+		<input asp-action="Create" asp-controller="Movies" type="submit" class="btn btn-primary" value="Create"/>
 
 	</form>
 </div>
