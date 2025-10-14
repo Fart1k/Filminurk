@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Filminurk.Core.Domain
+{
+    public enum Genre
+    {
+        Horror, Superhero, Animated, Silent, Slop, Documentary, Comedy, Romance
+    }
+    public class Movie
+    {
+        public Guid ID { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateOnly FirstPublished { get; set; }
+        public string Director { get; set; }
+        public List<string>? Actors { get; set; }
+        public double? CurrentRating { get; set; }
+
+        public Genre? Genre { get; set; }
+        public string? Tagline { get; set; }
+        public string? Warnings { get; set; }
+    }
+}
