@@ -11,11 +11,13 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.20" />
+	</ItemGroup>
+	
+	
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
-  </ItemGroup>
-
-  <ItemGroup>
+	<ProjectReference Include="..\Filminurk\Filminurk.csproj" />
     <ProjectReference Include="..\Filminurk.Core\Filminurk.Core.csproj" />
   </ItemGroup>
 
