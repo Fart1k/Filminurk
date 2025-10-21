@@ -24,7 +24,6 @@ namespace Filminurk.Controllers
                 ID = x.ID,
                 Title = x.Title,
                 FirstPublished = x.FirstPublished,
-                Genre = x.Genre,
                 CurrentRating = x.CurrentRating,
                 Warnings = x.Warnings,
 

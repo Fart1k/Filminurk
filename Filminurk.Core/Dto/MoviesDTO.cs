@@ -17,11 +17,10 @@ namespace Filminurk.Core.Dto
         public List<string>? Actors { get; set; }
         public double? CurrentRating { get; set; }
 
-        // 3 minu andme
-
         public Genre? Genre { get; set; }
-
-        // DB jaoks vajalikud
+        public string? Tagline { get; set; }
+        public string? Warnings { get; set; }
+        /* Andmebaasi jaoks vajalikud */
         public DateTime? EntryCreatedAt { get; set; }
         public DateTime? EntryModifiedAt { get; set; }
     }
