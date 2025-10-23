@@ -64,15 +64,15 @@ else
             </div>
         </div>
 
-        <div class="form-group row">
-            <label asp-for="MovieGenre" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <select asp-for="MovieGenre" asp-items="Html.GetEnumSelectList<Genre>()">
-                    <option value="">-- Vali Alamžanr --</option>
-                </select>
-                <span asp-validation-for="MovieGenre"></span>
-            </div>
-        </div>
+
+        @foreach(var images in Model.Images)
+        {
+            <partial name="_Images" model="Images" />
+            <input asp-action="removeImage" asp-controller="Movies" asp-route-ImageId="@images.ImageID" type="submit" 
+            class="btn btn-success" value="Eemalda see pilt" />
+        }
+
+
         @if (Model.ID.HasValue)
         {
             <input asp-action="Update" asp-controller="Movies" type="submit" class="btn btn-primary" value="Update" />
