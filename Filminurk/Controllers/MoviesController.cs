@@ -3,6 +3,7 @@ using Filminurk.Models.Movies;
 using Filminurk.Core.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Filminurk.Core.ServiceInterface;
+using Microsoft.EntityFrameworkCore;
 
 namespace Filminurk.Controllers
 {
@@ -10,10 +11,17 @@ namespace Filminurk.Controllers
     {
         private readonly FilminurkTARpe24Context _context;
         private readonly IMovieServices _movieServices;
-        public MoviesController(FilminurkTARpe24Context context, IMovieServices movieServices)
+        private readonly IFilesServices _filesServices; //piltide jaoks
+        public MoviesController
+            (
+                FilminurkTARpe24Context context, 
+                IMovieServices movieServices, 
+                IFilesServices filesServices //piltide jaoks
+            )
         {
             _context = context;
             _movieServices = movieServices;
+            _filesServices = filesServices; //piltide jaoks
         }
         public IActionResult Index()
         {
@@ -23,7 +31,7 @@ namespace Filminurk.Controllers
                 Title = x.Title,
                 FirstPublished = x.FirstPublished,
                 CurrentRating = x.CurrentRating,
-                Warnings = x.Warnings,
+                MovieGenre = x.MovieGenre,
 
             });
             return View(result);
@@ -31,25 +39,34 @@ namespace Filminurk.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            MoviesCreateViewModel result = new();
+            MoviesCreateUpdateViewModel result = new();
             return View("CreateUpdate", result);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MoviesCreateViewModel vm)
+        public async Task<IActionResult> Create(MoviesCreateUpdateViewModel vm)
         {
             var dto = new MoviesDTO()
             {
                 ID = vm.ID,
                 Title = vm.Title,
                 FirstPublished = vm.FirstPublished,
-                Genre = vm.Genre,
+                MovieGenre = vm.MovieGenre,
                 CurrentRating = vm.CurrentRating,
                 Actors = vm.Actors,
                 EntryCreatedAt = vm.EntryCreatedAt,
                 EntryModifiedAt = vm.EntryModifiedAt,
                 Director = vm.Director,
                 Description = vm.Description,
+                Files = vm.Files,
+                FileToApiDTOs = vm.Images
+                .Select(x => new FileToApiDTO
+                {
+                    ImageID = x.ImageID,
+                    FilePath = x.FilePath,
+                    MovieID = x.MovieID,
+                    IsPoster = x.IsPoster,
+                }).ToArray()
             };
             var result = await _movieServices.Create(dto);
             if (result == null)
@@ -71,7 +88,7 @@ namespace Filminurk.Controllers
             vm.ID = movie.ID;
             vm.Title = movie.Title;
             vm.FirstPublished = movie.FirstPublished;
-            vm.Genre = movie.Genre;
+            vm.MovieGenre = movie.MovieGenre;
             vm.CurrentRating = movie.CurrentRating;
             vm.Actors = movie.Actors;
             vm.EntryCreatedAt = movie.EntryCreatedAt;
@@ -90,35 +107,54 @@ namespace Filminurk.Controllers
             {
                 return NotFound();
             }
-            var vm = new MoviesCreateViewModel();
+
+            var images = await _context.FilesToApi
+                .Where(x => x.MovieID == id)
+                .Select(y => new ImageViewModel
+                {
+                    FilePath = y.ExistingFilePath,
+                    ImageID = id
+                }).ToArrayAsync();
+
+            var vm = new MoviesCreateUpdateViewModel();
 
             vm.ID = movie.ID;
             vm.Title = movie.Title;
+            vm.Description = movie.Description;
             vm.FirstPublished = movie.FirstPublished;
-            vm.Genre = movie.Genre;
+            vm.MovieGenre = movie.MovieGenre;
             vm.CurrentRating = movie.CurrentRating;
             vm.Actors = movie.Actors;
             vm.EntryCreatedAt = movie.EntryCreatedAt;
             vm.EntryModifiedAt = movie.EntryModifiedAt;
             vm.Director = movie.Director;
-            vm.Description = movie.Description;
+            vm.Images.AddRange(images);
+
             return View("CreateUpdate", vm);
         }
         [HttpPost]
-        public async Task<IActionResult> Update(MoviesCreateViewModel vm)
+        public async Task<IActionResult> Update(MoviesCreateUpdateViewModel vm)
         {
             var dto = new MoviesDTO()
             {
                 ID = vm.ID,
                 Title = vm.Title,
+                Description = vm.Description,
                 FirstPublished = vm.FirstPublished,
-                Genre = vm.Genre,
+                MovieGenre = vm.MovieGenre,
                 CurrentRating = vm.CurrentRating,
                 Actors = vm.Actors,
                 EntryCreatedAt = vm.EntryCreatedAt,
                 EntryModifiedAt = vm.EntryModifiedAt,
                 Director = vm.Director,
-                Description = vm.Description,
+                Files = vm.Files,
+                FileToApiDTOs = vm.Images
+                .Select(x => new FileToApiDTO
+                {
+                    ImageID = x.ImageID,
+                    MovieID = x.MovieID,
+                    FilePath = x.FilePath,
+                }).ToArray()
             };
             var result = await _movieServices.Update(dto);
             if (result == null)
@@ -136,18 +172,28 @@ namespace Filminurk.Controllers
             {
                 return NotFound();
             }
+
+            var images = await _context.FilesToApi
+                .Where(x => x.MovieID == ID)
+                .Select(y => new ImageViewModel
+                {
+                    FilePath = y.ExistingFilePath,
+                    ImageID = y.ImageID,
+                }).ToArrayAsync();
+
             var vm = new MoviesDeleteViewModel();
 
             vm.ID = movie.ID;
             vm.Title = movie.Title;
             vm.FirstPublished = movie.FirstPublished;
-            vm.Genre = movie.Genre;
+            vm.MovieGenre = movie.MovieGenre;
             vm.CurrentRating = movie.CurrentRating;
             vm.Actors = movie.Actors;
             vm.EntryCreatedAt = movie.EntryCreatedAt;
             vm.EntryModifiedAt = movie.EntryModifiedAt;
             vm.Director = movie.Director;
             vm.Description = movie.Description;
+            vm.Images.AddRange(images);
 
             return View(vm);
 
@@ -158,7 +204,6 @@ namespace Filminurk.Controllers
             var movie = await _movieServices.Delete(ID);
             if (movie == null) { return NotFound(); }
             return RedirectToAction(nameof(Index));
-
         }
     }
 }

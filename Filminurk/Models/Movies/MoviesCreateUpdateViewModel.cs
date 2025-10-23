@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Filminurk.Core.Domain;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Filminurk.Models.Movies
 {
-    public class MoviesCreateViewModel : Controller
+    public class MoviesCreateUpdateViewModel : Controller
     {
         public Guid ID { get; set; }
         public string Title { get; set; }
@@ -11,10 +12,14 @@ namespace Filminurk.Models.Movies
         public string Director  { get; set; }
         public List<string>? Actors { get; set; }
         public double? CurrentRating { get; set; }
-        
+
+        /* Kaasasolevate piltide andmeomadused */
+        public List<IFormFile> Files { get; set; }
+        public List<ImageViewModel> Images { get; set; } = new List<ImageViewModel>();
+
         // 3 minu andme
-        
-        public Genre? Genre { get; set; }
+
+        public Genre? MovieGenre { get; set; }
 
         // DB jaoks vajalikud
         public DateTime? EntryCreatedAt { get; set; }

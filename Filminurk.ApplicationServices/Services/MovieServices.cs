@@ -14,9 +14,15 @@ namespace Filminurk.ApplicationServices.Services
     public class MovieServices : IMovieServices
     {
         private readonly FilminurkTARpe24Context _context;
-        public MovieServices(FilminurkTARpe24Context context)
+        private readonly IFilesServices _filesServices; // failid
+        public MovieServices
+            (
+            FilminurkTARpe24Context context,
+            IFilesServices filesServices // failid
+            )
         {
             _context = context;
+            _filesServices = filesServices; // failid
         }
 
         public async Task<Movie> Create(MoviesDTO dto)
@@ -25,14 +31,14 @@ namespace Filminurk.ApplicationServices.Services
             movie.ID = Guid.NewGuid();
             movie.Title = dto.Title;
             movie.Description = dto.Description;
-            movie.Warnings = dto.Warnings;
             movie.FirstPublished = (DateOnly)dto.FirstPublished;
             movie.Actors = dto.Actors;
-            movie.Genre = dto.Genre;
+            movie.MovieGenre = dto.MovieGenre;
             movie.Director = dto.Director;
-            movie.Tagline = dto.Tagline;
-            // movie.EntryCreatedAt = DateTime.Now;
-            // movie.EntryModifiedAt = DateTime.Now;
+            movie.EntryCreatedAt = DateTime.Now;
+            movie.EntryModifiedAt = DateTime.Now;
+            _filesServices.FilesToApi(dto, movie);
+
             await _context.Movies.AddAsync(movie);
             await _context.SaveChangesAsync();
             return movie;
@@ -48,12 +54,10 @@ namespace Filminurk.ApplicationServices.Services
             movie.ID = (Guid)dto.ID;
             movie.Title = dto.Title;
             movie.Description = dto.Description;
-            movie.Warnings = dto.Warnings;
             movie.FirstPublished = (DateOnly)dto.FirstPublished;
             movie.Actors = dto.Actors;
-            movie.Genre = dto.Genre;
+            movie.MovieGenre = dto.MovieGenre;
             movie.Director = dto.Director;
-            movie.Tagline = dto.Tagline;
             movie.EntryCreatedAt = DateTime.Now;
             movie.EntryModifiedAt = DateTime.Now;
 

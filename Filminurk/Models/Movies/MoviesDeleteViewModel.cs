@@ -12,9 +12,12 @@ namespace Filminurk.Models.Movies
         public List<string>? Actors { get; set; }
         public double? CurrentRating { get; set; }
 
+        /* Kaasasolevate piltide andmeomadused */
+        public List<ImageViewModel> Images { get; set; } = new List<ImageViewModel>();
+
         // 3 minu andme
 
-        public Genre? Genre { get; set; }
+        public Genre? MovieGenre { get; set; }
 
         // DB jaoks vajalikud
         public DateTime? EntryCreatedAt { get; set; }

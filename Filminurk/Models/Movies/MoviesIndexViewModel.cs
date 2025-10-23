@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Filminurk.Core.Domain;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Filminurk.Models.Movies
 {
@@ -9,6 +10,7 @@ namespace Filminurk.Models.Movies
         public DateOnly FirstPublished { get; set; }
         public double? CurrentRating { get; set; }
 
-        public string? Warnings { get; set; }
+
+        public Genre? MovieGenre { get; set; }
     }
 }
