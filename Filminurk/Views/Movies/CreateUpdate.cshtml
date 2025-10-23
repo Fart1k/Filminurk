@@ -55,22 +55,22 @@ else
         </div>
 
         <div class="form-group row">
-            <label asp-for="Genre" class="col-sm-2 col-form-label"></label>
+            <label asp-for="MovieGenre" class="col-sm-2 col-form-label"></label>
             <div class="col-sm-10">
-                <select asp-for="Genre" asp-items="Html.GetEnumSelectList<Genre>()">
+                <select asp-for="MovieGenre" asp-items="Html.GetEnumSelectList<Genre>()">
                     <option value="">-- Vali Žanr --</option>
                 </select>
-                <span asp-validation-for="Genre"></span>
+                <span asp-validation-for="MovieGenre"></span>
             </div>
         </div>
 
         <div class="form-group row">
-            <label asp-for="Genre" class="col-sm-2 col-form-label"></label>
+            <label asp-for="MovieGenre" class="col-sm-2 col-form-label"></label>
             <div class="col-sm-10">
-                <select asp-for="Genre" asp-items="Html.GetEnumSelectList<Genre>()">
+                <select asp-for="MovieGenre" asp-items="Html.GetEnumSelectList<Genre>()">
                     <option value="">-- Vali Alamžanr --</option>
                 </select>
-                <span asp-validation-for="Genre"></span>
+                <span asp-validation-for="MovieGenre"></span>
             </div>
         </div>
         @if (Model.ID.HasValue)
