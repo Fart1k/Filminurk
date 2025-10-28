@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Filminurk.Models.Movies
 {
-    public class MoviesCreateUpdateViewModel : Controller
+    public class MoviesCreateUpdateViewModel
     {
         public Guid ID { get; set; }
         public string Title { get; set; }
