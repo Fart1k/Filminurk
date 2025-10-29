@@ -3,7 +3,7 @@
 
 @model Filminurk.Models.Movies.MoviesCreateUpdateViewModel
 
-@if (Model.ID == Guid.Empty)
+@if (Model.ID.HasValue)
 {
     <h1>Muuda Film</h1>
 }
@@ -71,7 +71,6 @@ else
             </div>
         </div>
 
-
         @foreach(var images in Model.Images)
         {
             <partial name="_Images" model="images" />
@@ -79,8 +78,7 @@ else
             class="btn btn-success" value="Eemalda see pilt" />
         }
 
-
-        @if (Model.ID == Guid.Empty)
+        @if (Model.ID.HasValue)
         {
             <input asp-action="Update" asp-controller="Movies" type="submit" class="btn btn-primary" value="Update" />
         }

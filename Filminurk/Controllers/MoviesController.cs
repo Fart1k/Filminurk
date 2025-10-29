@@ -43,39 +43,45 @@ namespace Filminurk.Controllers
             return View("CreateUpdate", result);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MoviesCreateUpdateViewModel vm)
         {
-            var dto = new MoviesDTO()
+            if (ModelState.IsValid)
             {
-                ID = vm.ID,
-                Title = vm.Title,
-                FirstPublished = vm.FirstPublished,
-                MovieGenre = vm.MovieGenre,
-                CurrentRating = vm.CurrentRating,
-                Actors = vm.Actors,
-                EntryCreatedAt = vm.EntryCreatedAt,
-                EntryModifiedAt = vm.EntryModifiedAt,
-                Director = vm.Director,
-                Description = vm.Description,
-                Files = vm.Files,
-                FileToApiDTOs = vm.Images
-                .Select(x => new FileToApiDTO
+                var dto = new MoviesDTO()
                 {
-                    ImageID = x.ImageID,
-                    FilePath = x.FilePath,
-                    MovieID = x.MovieID,
-                    IsPoster = x.IsPoster,
-                }).ToArray()
-            };
-            var result = await _movieServices.Create(dto);
-            if (result == null)
-            {
+                    ID = vm.ID,
+                    Title = vm.Title,
+                    FirstPublished = vm.FirstPublished,
+                    MovieGenre = vm.MovieGenre,
+                    CurrentRating = vm.CurrentRating,
+                    Actors = vm.Actors,
+                    EntryCreatedAt = vm.EntryCreatedAt,
+                    EntryModifiedAt = vm.EntryModifiedAt,
+                    Director = vm.Director,
+                    Description = vm.Description,
+                    Files = vm.Files,
+                    FileToApiDTOs = vm.Images
+                    .Select(x => new FileToApiDTO
+                    {
+                        ImageID = x.ImageID,
+                        FilePath = x.FilePath,
+                        MovieID = x.MovieID,
+                        IsPoster = x.IsPoster,
+                    }).ToArray()
+                };
+                var result = await _movieServices.Create(dto);
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                if (!ModelState.IsValid)
+                {
+                    return NotFound();
+                }
                 return RedirectToAction(nameof(Index));
             }
             return RedirectToAction(nameof(Index));
         }
-
         [HttpGet]
         public async Task<IActionResult> Details(Guid id)
         {
@@ -84,6 +90,8 @@ namespace Filminurk.Controllers
             {
                 return NotFound();
             }
+            ImageViewModel[] images = await FileFromDatabase(id);
+
             var vm = new MoviesDetailsViewModel();
             vm.ID = movie.ID;
             vm.Title = movie.Title;
@@ -161,6 +169,10 @@ namespace Filminurk.Controllers
             {
                 return NotFound();
             }
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
             return RedirectToAction(nameof(Index));
         }
 
@@ -199,11 +211,27 @@ namespace Filminurk.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> DeleteConfirmation(Guid ID)
+        public async Task<IActionResult> DeleteConfirmation(Guid id)
         {
-            var movie = await _movieServices.Delete(ID);
-            if (movie == null) { return NotFound(); }
+            var movie = await _movieServices.Delete(id);
+            if (movie == null) 
+            {
+                return NotFound(); 
+            }
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task<ImageViewModel[]> FileFromDatabase(Guid id)
+        {
+            return await _context.FilesToApi
+                .Where(x => x.MovieID == id)
+                .Select(y => new ImageViewModel
+                {
+                    ImageID = y.ImageID,
+                    MovieID = y.MovieID,
+                    IsPoster = y.IsPoster,
+                    FilePath = y.ExistingFilePath
+                }).ToArrayAsync();
         }
     }
 }
