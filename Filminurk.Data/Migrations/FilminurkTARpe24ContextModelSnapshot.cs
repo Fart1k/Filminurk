@@ -74,19 +74,66 @@ namespace Filminurk.Data.Migrations
                     b.Property<int?>("MovieGenre")
                         .HasColumnType("int");
 
-                    b.Property<string>("Tagline")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Warnings")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
                     b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("Filminurk.Core.Domain.UserComment", b =>
+                {
+                    b.Property<Guid>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CommentBody")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CommentCreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("CommentDeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CommentModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CommentedScore")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CommenterUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IsHarmful")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IsHelpful")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("MovieID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("MovieID");
+
+                    b.ToTable("UserComments");
+                });
+
+            modelBuilder.Entity("Filminurk.Core.Domain.UserComment", b =>
+                {
+                    b.HasOne("Filminurk.Core.Domain.Movie", null)
+                        .WithMany("Reviews")
+                        .HasForeignKey("MovieID");
+                });
+
+            modelBuilder.Entity("Filminurk.Core.Domain.Movie", b =>
+                {
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

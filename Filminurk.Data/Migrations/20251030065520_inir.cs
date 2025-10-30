@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Filminurk.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class inir : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,8 +37,6 @@ namespace Filminurk.Data.Migrations
                     Actors = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CurrentRating = table.Column<double>(type: "float", nullable: true),
                     MovieGenre = table.Column<int>(type: "int", nullable: true),
-                    Tagline = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Warnings = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EntryCreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EntryModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -46,6 +44,36 @@ namespace Filminurk.Data.Migrations
                 {
                     table.PrimaryKey("PK_Movies", x => x.ID);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "UserComments",
+                columns: table => new
+                {
+                    CommentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CommenterUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CommentBody = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CommentedScore = table.Column<int>(type: "int", nullable: false),
+                    IsHelpful = table.Column<int>(type: "int", nullable: false),
+                    IsHarmful = table.Column<int>(type: "int", nullable: false),
+                    CommentCreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CommentModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CommentDeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    MovieID = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserComments", x => x.CommentId);
+                    table.ForeignKey(
+                        name: "FK_UserComments_Movies_MovieID",
+                        column: x => x.MovieID,
+                        principalTable: "Movies",
+                        principalColumn: "ID");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserComments_MovieID",
+                table: "UserComments",
+                column: "MovieID");
         }
 
         /// <inheritdoc />
@@ -53,6 +81,9 @@ namespace Filminurk.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "FilesToApi");
+
+            migrationBuilder.DropTable(
+                name: "UserComments");
 
             migrationBuilder.DropTable(
                 name: "Movies");
