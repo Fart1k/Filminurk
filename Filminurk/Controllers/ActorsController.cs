@@ -5,6 +5,7 @@ using Filminurk.Data;
 using Filminurk.Models.Actors;
 using Filminurk.Models.Movies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 
 namespace Filminurk.Controllers
 {
@@ -77,7 +78,26 @@ namespace Filminurk.Controllers
         }
 
         // Details
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var actor = await _actorServices.DetailsAsync(id);
+            if (actor == null)
+            {
+                return NotFound();
+            }
 
+            var vm = new ActorsDetailsViewModel();
+            vm.ActorID = actor.ActorID;
+            vm.FirstName = actor.FirstName;
+            vm.LastName = actor.LastName;
+            vm.NickName = actor.NickName;
+            vm.MoviesActedFor = actor.MoviesActedFor;
+            vm.Age = actor.Age;
+            vm.Gender = actor.Gender;
+            vm.ActorRegion = actor.ActorRegion;
+            return View(vm);
+        }
 
         // Update
         
