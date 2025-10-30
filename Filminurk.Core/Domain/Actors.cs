@@ -22,5 +22,8 @@ namespace Filminurk.Core.Domain
         public int Age { get; set; }
         public string Gender { get; set; }
         public Region? ActorRegion { get; set; }
+
+        public DateTime? EntryCreatedAt { get; set; }
+        public DateTime? EntryModifiedAt { get; set; }
     }
 }
