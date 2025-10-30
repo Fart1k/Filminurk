@@ -13,15 +13,12 @@ namespace Filminurk.ApplicationServices.Services
     public class ActorsServices : IActorServices
     {
         private readonly FilminurkTARpe24Context _context;
-        private readonly IActorServices _actorServices;
         public ActorsServices
             (
-                FilminurkTARpe24Context context,
-                IActorServices actorServices
+                FilminurkTARpe24Context context
             )
         {
             _context = context;
-            _actorServices = actorServices;
         }
 
         public async Task<Actors> Create(ActorsDTO dto)
@@ -43,6 +40,8 @@ namespace Filminurk.ApplicationServices.Services
 
             return actors;
         }
+
+
 
     }
 }
