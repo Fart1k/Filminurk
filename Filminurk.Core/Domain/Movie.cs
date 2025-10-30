@@ -19,8 +19,6 @@ namespace Filminurk.Core.Domain
         public List<UserComment>? Reviews { get; set; }
 
         public Genre? MovieGenre { get; set; }
-        public string? Tagline { get; set; }
-        public string? Warnings { get; set; }
         public DateTime? EntryCreatedAt { get; set; }
         public DateTime? EntryModifiedAt { get; set; }
     }
