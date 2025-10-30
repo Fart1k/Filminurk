@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,8 @@ namespace Filminurk.Core.Domain
 {
     public class Actors
     {
-        public Guid? ActorID { get; set; }
+        [Key]
+        public Guid ActorID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string? NickName { get; set; }
