@@ -62,6 +62,8 @@ namespace Filminurk.Controllers
                     Age = vm.Age,
                     Gender = vm.Gender,
                     ActorRegion = vm.ActorRegion,
+                    EntryCreatedAt = vm.EntryCreatedAt,
+                    EntryModifiedAt = vm.EntryModifiedAt,
                 };
                 var result = await _actorServices.Create(dto);
                 if (result == null)
@@ -96,6 +98,8 @@ namespace Filminurk.Controllers
             vm.Age = actor.Age;
             vm.Gender = actor.Gender;
             vm.ActorRegion = actor.ActorRegion;
+            vm.EntryCreatedAt = actor.EntryCreatedAt;
+            vm.EntryModifiedAt = actor.EntryModifiedAt;
             return View(vm);
         }
 

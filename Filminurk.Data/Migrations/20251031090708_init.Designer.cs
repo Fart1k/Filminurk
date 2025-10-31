@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Filminurk.Data.Migrations
 {
     [DbContext(typeof(FilminurkTARpe24Context))]
-    [Migration("20251030073650_Actor")]
-    partial class Actor
+    [Migration("20251031090708_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
