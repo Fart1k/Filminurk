@@ -15,7 +15,7 @@ namespace Filminurk.Controllers
         private readonly IActorServices _actorServices;
 
 
-        public ActorsController 
+        public ActorsController
             (
                 FilminurkTARpe24Context context,
                 IActorServices actorServices
@@ -104,8 +104,54 @@ namespace Filminurk.Controllers
         }
 
         // Update
-        
-        
+        [HttpGet]
+        public async Task<IActionResult> Update(Guid id)
+        {
+            var actor = await _actorServices.DetailsAsync(id);
+
+            if (actor == null)
+            {
+                return NotFound();
+            }
+            var vm = new ActorsCreateUpdateViewModel();
+            vm.ActorID = actor.ActorID;
+            vm.FirstName = actor.FirstName;
+            vm.LastName = actor.LastName;
+            vm.NickName = actor.NickName;
+            vm.MoviesActedFor = actor.MoviesActedFor;
+            vm.Age = actor.Age;
+            vm.Gender = actor.Gender;
+            vm.ActorRegion = actor.ActorRegion;
+
+            return View("CreateUpdate", vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(ActorsCreateUpdateViewModel vm)
+        {
+            var dto = new ActorsDTO()
+            {
+                ActorID = vm.ActorID,
+                FirstName = vm.FirstName,
+                LastName = vm.LastName,
+                NickName = vm.NickName,
+                MoviesActedFor= vm.MoviesActedFor,
+                Age = vm.Age,
+                Gender = vm.Gender,
+                ActorRegion = vm.ActorRegion,
+            };
+
+            var result = await _actorServices.Update(dto);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Index));
+        }
         // Delete
 
 
