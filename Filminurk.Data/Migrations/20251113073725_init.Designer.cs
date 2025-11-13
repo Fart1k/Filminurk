@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Filminurk.Data.Migrations
 {
     [DbContext(typeof(FilminurkTARpe24Context))]
-    [Migration("20251031090708_init")]
+    [Migration("20251113073725_init")]
     partial class init
     {
         /// <inheritdoc />

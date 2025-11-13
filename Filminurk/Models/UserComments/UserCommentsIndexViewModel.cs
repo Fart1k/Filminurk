@@ -14,7 +14,7 @@ namespace Filminurk.Models.UserComments
 
         // Andmebaasi jaoks vajalikud andmed
         public DateTime CommentCreatedAt { get; set; }
-        public DateTime? CommentModifiedAt { get; set; }
+        public DateTime CommentModifiedAt { get; set; }
         public DateTime? CommentDeletedAt { get; set; }
     }
 }
