@@ -1,0 +1,78 @@
+﻿@model Filminurk.Models.UserComments.UserCommentsIndexViewModel
+<h1>Kustuta kommentaar</h1>
+
+<div>
+	<h4>Info:</h4>
+	<hr />
+
+	<dl class="row">
+		<div class="form-group row">
+			<label asp-for="CommentId" class="col-sm-2 col-form-label"></label>
+			@Html.DisplayFor(model => model.CommentId)
+		</div>
+	</dl>
+
+	<dl class="row">
+		<div class="form-group row">
+			<label asp-for="CommenterUserId" class="col-sm-2 col-form-label"></label>
+			@Html.DisplayFor(model => model.CommenterUserId)
+		</div>
+	</dl>
+
+	<dl class="row">
+		<div class="form-group row">
+			<label asp-for="CommentBody" class="col-sm-2 col-form-label"></label>
+			@Html.DisplayFor(model => model.CommentBody)
+		</div>
+	</dl>
+
+	<dl class="row">
+		<div class="form-group row">
+			<label asp-for="CommentedScore" class="col-sm-2 col-form-label"></label>
+			@Html.DisplayFor(model => model.CommentedScore)
+		</div>
+	</dl>
+
+	<dl class="row">
+		<div class="form-group row">
+			<label asp-for="IsHelpful" class="col-sm-2 col-form-label"></label>
+			@Html.DisplayFor(model => model.IsHelpful)
+		</div>
+	</dl>
+
+	<dl class="row">
+		<div class="form-group row">
+			<label asp-for="IsHarmful" class="col-sm-2 col-form-label"></label>
+			@Html.DisplayFor(model => model.IsHarmful)
+		</div>
+	</dl>
+
+	<dl class="row">
+		<div class="form-group row">
+			<label asp-for="CommentCreatedAt" class="col-sm-2 col-form-label"></label>
+			@Html.DisplayFor(model => model.CommentCreatedAt)
+		</div>
+	</dl>
+
+	<dl class="row">
+		<div class="form-group row">
+			<label asp-for="CommentModifiedAt" class="col-sm-2 col-form-label"></label>
+			@Html.DisplayFor(model => model.CommentModifiedAt)
+		</div>
+	</dl>
+
+	<dl class="row">
+		<div class="form-group row">
+			<label asp-for="CommentDeletedAt" class="col-sm-2 col-form-label"></label>
+			@Html.DisplayFor(model => model.CommentDeletedAt)
+		</div>
+	</dl>
+
+	<hr />
+	<form asp-action="DeleteCommentPost" method="post">
+		<a asp-action="Index" asp-controller="UserComments" method="post" class="btn btn-danger">Tagasi</a>
+		<input type="hidden" asp-for="CommentId"/>
+		<input type="submit" value="Kustuta" asp-action="DeleteCommentPost" asp-controller="UserComments" asp-route-id="@Model.CommentId" class="btn btn-primary" />
+	</form>
+
+</div>
