@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Filminurk.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class actors : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -74,8 +74,8 @@ namespace Filminurk.Data.Migrations
                     CommenterUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CommentBody = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CommentedScore = table.Column<int>(type: "int", nullable: false),
-                    IsHelpful = table.Column<int>(type: "int", nullable: false),
-                    IsHarmful = table.Column<int>(type: "int", nullable: false),
+                    IsHelpful = table.Column<int>(type: "int", nullable: true),
+                    IsHarmful = table.Column<int>(type: "int", nullable: true),
                     CommentCreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CommentModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CommentDeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
