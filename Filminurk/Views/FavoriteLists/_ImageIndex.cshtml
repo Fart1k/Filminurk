@@ -1,0 +1,16 @@
+﻿@model Filminurk.Models.FavoriteLists.FavoriteListsIndexImageViewModel
+<div>
+	@if (!Model.Image.Any())
+	{
+		<p>Pilte pole</p>
+	}
+</div>
+
+@if (Model.ImageTitle == "YoYo")
+{
+	<img class="card-img-top" src="@Model.Image" asp-append-version="true" />
+}
+else
+{
+	<img width="128" src="~/lib/defaultassets/image/NoYoYo.png" />
+}
