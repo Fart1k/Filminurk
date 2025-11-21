@@ -1,5 +1,8 @@
-﻿using Filminurk.Core.ServiceInterface;
+﻿using Filminurk.Core.Domain;
+using Filminurk.Core.Dto;
+using Filminurk.Core.ServiceInterface;
 using Filminurk.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +28,29 @@ namespace Filminurk.ApplicationServices.Services
 
         public async Task<FavoriteList> DetailsAsync(Guid id)
         {
-            var result = await _context.FavoriteLists.FirstOrDefaultAsync(x => x.Id == id);
+            var result = await _context.FavoriteLists.FirstOrDefaultAsync(x => x.FavoriteListID == id);
             return result;
+        }
+
+        public async Task<FavoriteList> Create(FavoriteListDTO dto /*, List<Movie> selectedMovies */)
+        {
+            FavoriteList newList = new();
+            newList.FavoriteListID = Guid.NewGuid();
+            newList.ListName = dto.ListName;
+            newList.Description = dto.Description;
+            newList.ListCreatedAt = dto.ListCreatedAt;
+            newList.ListModifiedAt = dto.ListModifiedAt;
+            newList.ListDeletedAt = dto.ListDeletedAt;
+            newList.ListOfMovies = dto.ListOfMovies;
+            await _context.FavoriteLists.AddAsync(newList);
+            await _context.SaveChangesAsync();
+
+            //foreach (var movieId in selectedMovies)
+            //{
+            //    _context.FavouriteLists.Entry
+            //}
+
+            return newList;
         }
     }
 }

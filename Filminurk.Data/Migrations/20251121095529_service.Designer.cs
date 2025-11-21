@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Filminurk.Data.Migrations
 {
     [DbContext(typeof(FilminurkTARpe24Context))]
-    [Migration("20251113141135_actors")]
-    partial class actors
+    [Migration("20251121095529_service")]
+    partial class service
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,9 @@ namespace Filminurk.Data.Migrations
                     b.Property<DateTime?>("EntryModifiedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("FavoriteListID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -66,7 +69,49 @@ namespace Filminurk.Data.Migrations
 
                     b.HasKey("ActorID");
 
+                    b.HasIndex("FavoriteListID");
+
                     b.ToTable("Actors");
+                });
+
+            modelBuilder.Entity("Filminurk.Core.Domain.FavoriteList", b =>
+                {
+                    b.Property<Guid>("FavoriteListID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsMovieOrActor")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPrivate")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReported")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ListBelongsToUser")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ListCreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ListDeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ListModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ListName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("FavoriteListID");
+
+                    b.ToTable("FavoriteLists");
                 });
 
             modelBuilder.Entity("Filminurk.Core.Domain.FileToApi", b =>
@@ -87,6 +132,32 @@ namespace Filminurk.Data.Migrations
                     b.HasKey("ImageID");
 
                     b.ToTable("FilesToApi");
+                });
+
+            modelBuilder.Entity("Filminurk.Core.Domain.FileToDatabase", b =>
+                {
+                    b.Property<Guid>("ImageID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("ImageData")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ImageTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ListID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ImageID");
+
+                    b.ToTable("FileToDatabase");
                 });
 
             modelBuilder.Entity("Filminurk.Core.Domain.Movie", b =>
@@ -115,6 +186,9 @@ namespace Filminurk.Data.Migrations
                     b.Property<DateTime?>("EntryModifiedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("FavoriteListID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateOnly>("FirstPublished")
                         .HasColumnType("date");
 
@@ -126,6 +200,8 @@ namespace Filminurk.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("FavoriteListID");
 
                     b.ToTable("Movies");
                 });
@@ -171,11 +247,32 @@ namespace Filminurk.Data.Migrations
                     b.ToTable("UserComments");
                 });
 
+            modelBuilder.Entity("Filminurk.Core.Domain.Actors", b =>
+                {
+                    b.HasOne("Filminurk.Core.Domain.FavoriteList", null)
+                        .WithMany("ListOfActors")
+                        .HasForeignKey("FavoriteListID");
+                });
+
+            modelBuilder.Entity("Filminurk.Core.Domain.Movie", b =>
+                {
+                    b.HasOne("Filminurk.Core.Domain.FavoriteList", null)
+                        .WithMany("ListOfMovies")
+                        .HasForeignKey("FavoriteListID");
+                });
+
             modelBuilder.Entity("Filminurk.Core.Domain.UserComment", b =>
                 {
                     b.HasOne("Filminurk.Core.Domain.Movie", null)
                         .WithMany("Reviews")
                         .HasForeignKey("MovieID");
+                });
+
+            modelBuilder.Entity("Filminurk.Core.Domain.FavoriteList", b =>
+                {
+                    b.Navigation("ListOfActors");
+
+                    b.Navigation("ListOfMovies");
                 });
 
             modelBuilder.Entity("Filminurk.Core.Domain.Movie", b =>

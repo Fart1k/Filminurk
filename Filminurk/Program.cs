@@ -1,4 +1,5 @@
 using Filminurk.ApplicationServices.Services;
+using Filminurk.Core.Domain;
 using Filminurk.Core.ServiceInterface;
 using Filminurk.Data;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace Filminurk
             builder.Services.AddScoped<IMovieServices, MovieServices>();
             builder.Services.AddScoped<IFilesServices, FilesServices>();
             builder.Services.AddScoped<IActorServices, ActorsServices>();
+            builder.Services.AddScoped<IFavoriteListsServices, FavoriteListsServices>();
             builder.Services.AddScoped<IUserCommentsServices, UserCommentsServices>();
             
             builder.Services.AddDbContext<FilminurkTARpe24Context>(options => options.UseSqlServer
