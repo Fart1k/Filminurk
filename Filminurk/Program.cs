@@ -19,9 +19,11 @@ namespace Filminurk
             builder.Services.AddScoped<IActorServices, ActorsServices>();
             builder.Services.AddScoped<IFavoriteListsServices, FavoriteListsServices>();
             builder.Services.AddScoped<IUserCommentsServices, UserCommentsServices>();
+            builder.Services.AddScoped<IEmailsServices, EmailsServices>();
+
             
             builder.Services.AddDbContext<FilminurkTARpe24Context>(options => options.UseSqlServer
-            (builder.Configuration.GetConnectionString("DefaultConnection")));
+            (builder.Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging());
 
 
             var app = builder.Build();

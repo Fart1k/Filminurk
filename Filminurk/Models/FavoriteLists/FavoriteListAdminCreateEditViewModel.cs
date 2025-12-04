@@ -2,7 +2,7 @@
 
 namespace Filminurk.Models.FavoriteLists
 {
-    public class FavoriteListUserCreateViewModel
+    public class FavoriteListAdminCreateEditViewModel
     {
         public Guid FavoriteListID { get; set; }
         public string ListBelongsToUser { get; set; }
@@ -11,6 +11,7 @@ namespace Filminurk.Models.FavoriteLists
         public string Description { get; set; }
         public bool IsPrivate { get; set; }
         public List<Movie>? ListOfMovies { get; set; }
+
         //public List<Filminurk.Core.Domain.Actors>? ListOfActors { get; set; }
         public DateTime ListCreatedAt { get; set; }
         public DateTime ListModifiedAt { get; set; }

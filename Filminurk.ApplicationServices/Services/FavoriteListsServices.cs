@@ -28,7 +28,9 @@ namespace Filminurk.ApplicationServices.Services
 
         public async Task<FavoriteList> DetailsAsync(Guid id)
         {
-            var result = await _context.FavoriteLists.FirstOrDefaultAsync(x => x.FavoriteListID == id);
+            var result = await _context.FavoriteLists
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.FavoriteListID == id);
             return result;
         }
 
@@ -42,6 +44,7 @@ namespace Filminurk.ApplicationServices.Services
             newList.ListModifiedAt = dto.ListModifiedAt;
             newList.ListDeletedAt = dto.ListDeletedAt;
             newList.ListOfMovies = dto.ListOfMovies;
+            newList.ListBelongsToUser = dto.ListBelongsToUser;
             await _context.FavoriteLists.AddAsync(newList);
             await _context.SaveChangesAsync();
 
@@ -51,6 +54,40 @@ namespace Filminurk.ApplicationServices.Services
             //}
 
             return newList;
+        }
+
+        // Update
+        public async Task<FavoriteList> Update(FavoriteListDTO privatedList, string typeOfMethod)
+        {
+            FavoriteList privatedListInDB = new();
+
+            privatedListInDB.FavoriteListID = privatedList.FavoriteListID;
+            privatedListInDB.ListBelongsToUser = privatedList.ListBelongsToUser;
+            privatedListInDB.IsMovieOrActor = privatedList.IsMovieOrActor;
+            privatedListInDB.ListName = privatedList.ListName;
+            privatedListInDB.Description = privatedList.Description;
+            privatedListInDB.IsPrivate = privatedList.IsPrivate;
+            privatedListInDB.ListOfMovies = privatedList.ListOfMovies;
+            privatedListInDB.ListCreatedAt = privatedList.ListCreatedAt;
+            privatedListInDB.ListDeletedAt= privatedList.ListDeletedAt;
+            privatedListInDB.ListModifiedAt= privatedList.ListModifiedAt;
+
+            if (typeOfMethod == "Delete")
+            {
+                _context.FavoriteLists.Attach(privatedListInDB);
+                _context.Entry(privatedListInDB).Property(l => l.ListDeletedAt).IsModified = true;
+            }
+
+            else if (typeOfMethod == "Private")
+            {
+                _context.FavoriteLists.Attach(privatedListInDB);
+                _context.Entry(privatedListInDB).Property(l => l.IsPrivate).IsModified = true;
+            }
+            _context.Entry(privatedListInDB).Property(l => l.ListModifiedAt).IsModified = true;
+            await _context.SaveChangesAsync();
+            return privatedListInDB;
+
+
         }
     }
 }
