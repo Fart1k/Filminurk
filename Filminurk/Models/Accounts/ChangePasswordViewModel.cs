@@ -2,7 +2,7 @@
 
 namespace Filminurk.Models.Accounts
 {
-    public class ChangePasswordViewModes
+    public class ChangePasswordViewModel
     {
         [Required]
         [DataType(DataType.Password)]
