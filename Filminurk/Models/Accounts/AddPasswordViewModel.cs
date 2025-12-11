@@ -4,6 +4,10 @@ namespace Filminurk.Models.Accounts
 {
     public class AddPasswordViewModel
     {
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Sisesta oma praegune parool")]
+        public string CurrentPassword { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -14,8 +18,5 @@ namespace Filminurk.Models.Accounts
         [Display(Name = "Kirjtuta parool uuesti")]
         [Compare("NewPassword", ErrorMessage ="Paroolid ei kattu, palun proovi uuesti")]
         public string ConfirmNewPassword { get; set; }
-
-
-
     }
 }
