@@ -48,5 +48,16 @@ namespace Filminurk.ApplicationServices.Services
             }
             return user;
         }
+        // Homwork
+        //public async Task<ApplicationUser> ConfirmEmail()
+        //{
+
+        //}
+
+        public async Task<ApplicationUser> Login(LoginDTO userDTO)
+        {
+            var user = await _userManager.FindByEmailAsync(userDTO.Email);
+            return user;
+        }
     }
 }
