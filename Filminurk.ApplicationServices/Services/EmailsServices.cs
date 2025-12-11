@@ -23,9 +23,9 @@ namespace Filminurk.ApplicationServices.Services
         public void SendEmail(EmailDTO dto)
         {
             var email = new MimeMessage();
-            _configuration.GetSection("EmailUserName").Value = "seinartur";
-            _configuration.GetSection("EmailHost").Value = "smtp.gmail.com";
-            _configuration.GetSection("EmailPassword").Value = "svwf dauy otch guaq";
+            _configuration.GetSection("EmailUserName").Value = Data.Environment.gmailusername;
+            _configuration.GetSection("EmailHost").Value = Data.Environment.smtpaddress;
+            _configuration.GetSection("EmailPassword").Value = Data.Environment.gmailapppassword;
 
             email.From.Add(MailboxAddress.Parse(_configuration.GetSection("EmailUserName").Value));
             email.To.Add(MailboxAddress.Parse(dto.SendToThisAdress));

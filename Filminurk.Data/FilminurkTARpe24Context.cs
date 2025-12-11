@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Filminurk.Core.Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Filminurk.Data
@@ -17,5 +18,6 @@ namespace Filminurk.Data
         public DbSet<Actors> Actors { get; set; }
         public DbSet<FavoriteList> FavoriteLists { get; set; }
         public DbSet<FileToDatabase> FileToDatabase { get; set; }
+        public DbSet<IdentityRole> IdenteRoles { get; set; }
     }
 }
