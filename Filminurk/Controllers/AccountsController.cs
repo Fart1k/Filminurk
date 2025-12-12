@@ -198,9 +198,11 @@ namespace Filminurk.Controllers
             {
                 var user = new ApplicationUser()
                 {
-                    UserName = model.DisplayName,
+                    UserName = model.Email,
                     Email = model.Email,
-                    ProfileType = model.ProfileType
+                    ProfileType = model.ProfileType,
+                    DisplayName = model.DisplayName,
+                    AvatarImageId = Guid.NewGuid().ToString(),
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -264,13 +266,13 @@ namespace Filminurk.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnURL)
+        public async Task<IActionResult> Login(LoginViewModel model, string? returnURL)
         {
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user != null && !user.EmailConfirmed && (await _userManager.CheckPasswordAsync(user, model.Password)))
-                {
+                {   
                     ModelState.AddModelError("", "Sinu email ei ole kinnitatud, palun vaata spämmikausta");
                     return View(model);
                 }
@@ -286,9 +288,19 @@ namespace Filminurk.Controllers
                         return RedirectToAction("Index", "Home");
                     }
                 }
+
+                if (result.IsNotAllowed)
+                {
+                    ModelState.AddModelError("", "Sisselogimine ebaõnnestus, kontakteeru administraatoriga");
+                }
+
                 if (result.IsLockedOut)
                 {
                     return View("AccountLocked");
+                }
+                if (result.Succeeded == false)
+                {
+                    ModelState.AddModelError("", "Kasuta nimi või parool on vale");
                 }
                 ModelState.AddModelError("", "Sisselogimine ebaõnnestus, kontakteeru administraatoriga");
             }

@@ -33,7 +33,7 @@ namespace Filminurk.ApplicationServices.Services
         {
             var user = new ApplicationUser()
             {
-                UserName = userDTO.UserName,
+                UserName = userDTO.Email,
                 Email = userDTO.Email,
                 ProfileType = userDTO.ProfileType,
                 DisplayName = userDTO.DisplayName,

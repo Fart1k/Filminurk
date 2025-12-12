@@ -16,8 +16,8 @@ namespace Filminurk.Core.Domain
         public bool ProfileType { get; set; }
 
         /* 2 minu andmevälja */
-        public int Age { get; set; }
-        public string Gender { get; set; }
+        public int? Age { get; set; }
+        public string? Gender { get; set; }
 
     }
 }
