@@ -35,6 +35,7 @@ namespace Filminurk
                 options.Tokens.EmailConfirmationTokenProvider = "CustomEmailConfirmation";
                 options.Lockout.MaxFailedAccessAttempts = 3;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                //options.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<FilminurkTARpe24Context>()
                 .AddDefaultTokenProviders()
