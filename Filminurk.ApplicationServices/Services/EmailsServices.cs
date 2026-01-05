@@ -33,7 +33,7 @@ namespace Filminurk.ApplicationServices.Services
 
             var builder = new BodyBuilder
             {
-                HtmlBody = dto.EmailSubject,
+                HtmlBody = dto.EmailContent,
             };
             email.Body = builder.ToMessageBody();
             using var smtp = new SmtpClient();
@@ -43,5 +43,7 @@ namespace Filminurk.ApplicationServices.Services
             smtp.Send(email);
             smtp.Disconnect(true);
         }
+
+
     }
 }
