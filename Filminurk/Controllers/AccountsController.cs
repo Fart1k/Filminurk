@@ -216,9 +216,6 @@ namespace Filminurk.Controllers
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
                     var confirmationLink = Url.Action("ConfirmEmail", "Accounts", new { userId = user.Id, token = token }, Request.Scheme);
-                    // Homework task: koosta email kasutajalt pärineva aadressile saatmiseks, kasutaja saab ima postkastist kätte emaili
-                    // kinnituslingiga, mille jaoks kasutatakse tokenit. Siin tuleb välja kutsuda vastav, uus, emaili saatmise meetod, mis saadab
-                    // õige sisuga kirja.
 
                     var dto = new EmailDTO()
                     {
