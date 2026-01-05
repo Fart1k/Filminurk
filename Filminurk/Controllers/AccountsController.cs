@@ -1,4 +1,6 @@
-﻿using Filminurk.Core.Domain;
+﻿using Filminurk.ApplicationServices.Services;
+using Filminurk.Core.Domain;
+using Filminurk.Core.Dto;
 using Filminurk.Core.ServiceInterface;
 using Filminurk.Data;
 using Filminurk.Models.Accounts;
@@ -6,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
+using Org.BouncyCastle.Crypto.Prng;
 
 namespace Filminurk.Controllers
 {
@@ -20,12 +23,14 @@ namespace Filminurk.Controllers
             (
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            FilminurkTARpe24Context context
+            FilminurkTARpe24Context context,
+            IEmailsServices emailsServices
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _emailsServices = emailsServices;
         }
         // Add password
         [HttpGet]
@@ -203,7 +208,7 @@ namespace Filminurk.Controllers
                     ProfileType = model.ProfileType,
                     DisplayName = model.DisplayName,
                     AvatarImageId = Guid.NewGuid().ToString(),
-                };
+                }; 
 
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -214,9 +219,15 @@ namespace Filminurk.Controllers
                     // Homework task: koosta email kasutajalt pärineva aadressile saatmiseks, kasutaja saab ima postkastist kätte emaili
                     // kinnituslingiga, mille jaoks kasutatakse tokenit. Siin tuleb välja kutsuda vastav, uus, emaili saatmise meetod, mis saadab
                     // õige sisuga kirja.
+
+                    var dto = new EmailDTO()
+                    {
+                        SendToThisAdress = model.Email,
+                        EmailSubject = "Confirm email",
+                        EmailContent = "Click the link to confirm your email - " + confirmationLink
+                    };
+                    _emailsServices.SendEmail(dto);
                 }
-                
-                //
 
                 return RedirectToAction("Index", "Home");
             }
