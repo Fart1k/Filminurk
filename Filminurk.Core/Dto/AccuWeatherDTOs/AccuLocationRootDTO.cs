@@ -10,21 +10,7 @@ namespace Filminurk.Core.Dto.AccuWeatherDTOs
     {
         public Headline Headline { get; set; }
         public DailyForecast[] DailyForecasts { get; set; }
-
     }
-
-    public class DailyForecast
-    {
-        public string Date { get; set; }
-        public int EpochDate { get; set; }
-        public Temperature Temperature { get; set; }
-        public Day Day { get; set; }
-        public Night Night { get; set; }
-        public string[] Sources { get; set; }
-        public string MobileLink { get; set; }
-        public string Link { get; set; }
-    }
-
     public class Headline
     {
         public string EffectiveDate { get; set; }
@@ -34,6 +20,17 @@ namespace Filminurk.Core.Dto.AccuWeatherDTOs
         public string Category { get; set; }
         public string EndDate { get; set; }
         public int EndEpochDate { get; set; }
+        public string MobileLink { get; set; }
+        public string Link { get; set; }
+    }
+    public class DailyForecast
+    {
+        public string Date { get; set; }
+        public int EpochDate { get; set; }
+        public Temperature Temperature { get; set; }
+        public Day Day { get; set; }
+        public Night Night { get; set; }
+        public string[] Sources { get; set; }
         public string MobileLink { get; set; }
         public string Link { get; set; }
     }
@@ -75,4 +72,5 @@ namespace Filminurk.Core.Dto.AccuWeatherDTOs
         public string PrecipitationType { get; set; }
         public string PrecipitationIntensity { get; set; }
     }
+
 }

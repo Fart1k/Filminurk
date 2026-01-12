@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Filminurk.Core.Dto.AccuWeatherDTOs
+﻿namespace Filminurk.Models.AccuWeather
 {
-    public class AccuLocationWeatherResultDTO
+    public class AccuWeatherViewModel
     {
         public string CityName { get; set; } = string.Empty;
-        public string CityCode { get; set; } = string.Empty;
+        // public string CityCode { get; set; } = string.Empty;
         public string EffectiveDate { get; set; } = string.Empty;
         public long EffectiveEpochDate { get; set; }
         public int Severity { get; set; }
@@ -29,14 +23,16 @@ namespace Filminurk.Core.Dto.AccuWeatherDTOs
         public string DayIconPhrase { get; set; } = string.Empty;
         public bool DayHasPrecipitation { get; set; }
         public string DayPrecipitationType { get; set; } = string.Empty;
-        public string DayPrecipitationIntensity { get; set; } = string.Empty;
+        public string DayPrecipitationIntesity { get; set; } = string.Empty;
         public int NightIcon { get; set; }
         public string NightIconPhrase { get; set; } = string.Empty;
         public bool NightHasPrecipitation { get; set; }
         public string NightPrecipitationType { get; set; } = string.Empty;
-        public string NightPrecipitationIntensity { get; set; } = string.Empty;
+        public string NightPrecipitationIntesity { get; set; } = string.Empty;
         public string MobileLink { get; set; } = string.Empty;
         public string Link { get; set; } = string.Empty;
 
+
     }
 }
+

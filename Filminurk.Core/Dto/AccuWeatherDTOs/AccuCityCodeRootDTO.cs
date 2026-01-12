@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using Filminurk.Core.Domain;
 
 namespace Filminurk.Core.Dto.AccuWeatherDTOs
 {
@@ -17,17 +15,17 @@ namespace Filminurk.Core.Dto.AccuWeatherDTOs
         public string LocalizedName { get; set; } = string.Empty;
         public string EnglishName { get; set; } = string.Empty;
         public string PrimaryPostalCode { get; set; } = string.Empty;
-        public WeatherRegion? WeatherRegion { get; set; }
+        public Region? Region { get; set; }
         public Country? Country { get; set; }
         public AdministrativeArea? AdministrativeArea { get; set; }
         public TimeZone? TimeZone { get; set; }
-        public Geoposition? Geoposition { get; set; }
+        public GeoPosition? GeoPosition { get; set; }
         public bool IsAlias { get; set; }
         public SupplementalAdminArea[]? SupplementalAdminAreas { get; set; }
         public string[]? DataSets { get; set; }
-    }
 
-    public class WeatherRegion
+    }
+    public class Region
     {
         public string Id { get; set; } = string.Empty;
         public string LocalizedName { get; set; } = string.Empty;
@@ -48,42 +46,39 @@ namespace Filminurk.Core.Dto.AccuWeatherDTOs
         public string LocalizedType { get; set; } = string.Empty;
         public string EnglishType { get; set; } = string.Empty;
         public string CountryID { get; set; } = string.Empty;
-    }
-    public class Geoposition
-    {
-        public float Latitude { get; set; }
-        public float Longtitude { get; set; }
-        public float Elevation { get; set; }
-    }
 
+    }
     public class TimeZone
     {
         public string Code { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
-        public int GmtOffset { get; set; }
+        public double GmtOffset { get; set; }
         public bool IsDaylightSaving { get; set; }
-        public DateTime NextOffsetChange { get; set; }
+        public DateTime? NextOffsetChange { get; set; }
     }
-
+    public class GeoPosition
+    {
+        public float Latitude { get; set; }
+        public float Longitude { get; set; }
+        public Elevation? Elevation { get; set; }
+    }
     public class Elevation
     {
         public Metric? Metric { get; set; }
         public Imperial? Imperial { get; set; }
     }
-
     public class Metric
     {
-        public int Value { get; set; }
-        public int Unit { get; set; }
+        public double Value { get; set; }
+        public string Unit { get; set; } = string.Empty;
         public int UnitType { get; set; }
     }
     public class Imperial
     {
-        public int Value { get; set; }
-        public int Unit { get; set; }
+        public double Value { get; set; }
+        public string Unit { get; set; } = string.Empty;
         public int UnitType { get; set; }
     }
-
     public class SupplementalAdminArea
     {
         public int Level { get; set; }
