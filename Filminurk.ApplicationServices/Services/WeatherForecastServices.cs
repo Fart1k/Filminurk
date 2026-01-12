@@ -36,7 +36,7 @@ namespace Filminurk.ApplicationServices.Services
             //    var httpResponseLocation = await clientLocation.GetAsync(locationResponse);
             //    string jsonLocation = await httpResponseLocation.Content.ReadAsStringAsync();
             //    AccuCityCodeRootFlatDTO cityRootDTO = JsonSerializer.Deserialize<AccuCityCodeRootFlatDTO>(jsonLocation);
-                
+
             //    dto.CityCode = cityRootDTO.Key;
             //}
 
@@ -46,11 +46,9 @@ namespace Filminurk.ApplicationServices.Services
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(
                     new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json")
-                    );
-                var response = httpClient.GetAsync($"q={dto.CityName}?apikey={apiKey}&details=true").GetAwaiter().GetResult();
+                );
+                var response = httpClient.GetAsync($"?q={dto.CityName}&apikey={apiKey}&details=true").GetAwaiter().GetResult();
                 var jsonResponse = await response.Content.ReadAsStringAsync();
-                //127964
-
                 try
                 {
                     List<AccuCityCodeRootDTO> weatherData = JsonSerializer.Deserialize<List<AccuCityCodeRootDTO>>(jsonResponse);
@@ -61,8 +59,6 @@ namespace Filminurk.ApplicationServices.Services
                 {
                     Console.WriteLine(ex.Message);
                 }
-
-                
             }
 
             string weatherResponse = baseUrl + $"{dto.CityCode}?apikey={apiKey}&metric=true";
