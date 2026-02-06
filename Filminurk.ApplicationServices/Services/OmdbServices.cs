@@ -12,7 +12,7 @@ namespace Filminurk.ApplicationServices.Services
 {
     public class OmdbServices : IOmdbServices
     {
-        public async Task<OmdbRootDTO> OmdbRootSearchResult(OmdbRootDTO dto)
+        public async Task<OmdbRootDTO> OmdbRootSearchResult(OmdbResultDTO dto)
         {
             string apiKey = Filminurk.Data.Environment.omdbkey;
             var baseUrl = "http://www.omdbapi.com/";

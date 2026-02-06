@@ -23,8 +23,9 @@ namespace Filminurk
             builder.Services.AddScoped<IEmailsServices, EmailsServices>();
             builder.Services.AddScoped<IAccountServices, AccountServices>();
             builder.Services.AddScoped<IWeatherForecastServices, WeatherForecastServices>();
+            builder.Services.AddScoped<IOmdbServices, OmdbServices>();
 
-            
+
             builder.Services.AddDbContext<FilminurkTARpe24Context>(options => options.UseSqlServer
             (builder.Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging());
 
