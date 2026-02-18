@@ -39,7 +39,8 @@ namespace Filminurk.Controllers
             OmdbResultViewModel vm = new();
             vm.Title = dto.Title;
             vm.Released = dto.Released;
-            if (Genre.IsDefined(typeof(Genre), dto.Genre))
+            if (!string.IsNullOrEmpty(dto.Genre) &&
+                Enum.IsDefined(typeof(Genre), dto.Genre))
             {
                 vm.Genre = (Genre)Enum.Parse(typeof(Genre), dto.Genre);
             }
@@ -47,6 +48,7 @@ namespace Filminurk.Controllers
             {
                 vm.Genre = Genre.Unknown;
             }
+
             vm.Director = dto.Director;
             vm.Actors = dto.Actors;
             vm.Description = dto.Description;
