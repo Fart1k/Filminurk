@@ -1,5 +1,75 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Filminurk.Models.Omdb.OmdbResultViewModel
+
+<div class="container">
+	<form method="post" enctype="multipart/form-data">
+		<h2>Preview: @Model.Title</h2>
+		<hr />
+		<dl class="row text-dark">
+			<div>
+				<dt class="col-sm 2">
+					Title:
+				</dt>
+				<dd>
+					@Html.DisplayFor(Model => Model.Title)
+				</dd>
+			</div>
+			<div>
+				<dt class="col-sm 2">
+					Released:
+				</dt>
+				<dd>
+					@Html.DisplayFor(Model => Model.Released)
+				</dd>
+			</div>
+			<div>
+				<dt class="col-sm 2">
+					Genre:
+				</dt>
+				<dd>
+					@Html.DisplayFor(Model => Model.Genre)
+				</dd>
+			</div>
+			<div>
+				<dt class="col-sm 2">
+					Rating:
+				</dt>
+				<dd>
+					@Html.DisplayFor(Model => Model.imdbRating)
+				</dd>
+			</div>
+			<div>
+				<dt class="col-sm 2">
+					Actors:
+				</dt>
+				<dd>
+					@Html.DisplayFor(Model => Model.Actors)
+				</dd>
+			</div>
+			<div>
+				<dt class="col-sm 2">
+					Director:
+				</dt>
+				<dd>
+					@Html.DisplayFor(Model => Model.Director)
+				</dd>
+			</div>
+			<div>
+				<dt class="col-sm 2">
+					Description:
+				</dt>
+				<dd>
+                    @Html.DisplayFor(Model => Model.Description)
+                </dd>
+			</div>
+		</dl>
+		<input asp-for="Title" type="hidden" />
+		<input asp-for="Released" type="hidden" />
+		<input asp-for="Genre" type="hidden" />
+		<input asp-for="imdbRating" type="hidden" />
+		<input asp-for="Actors" type="hidden" />
+		<input asp-for="Director" type="hidden" />
+        <input asp-for="Description" type="hidden" />
+		<input asp-action="Import" asp-controller="Omdb" type="submit" class="btn btn-primary" value="Import" />
+		<a asp-action="Index" asp-controller="Omdb" class="btn btn-success">Tagasi</a>
+	</form>
+</div>

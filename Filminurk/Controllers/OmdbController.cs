@@ -2,6 +2,7 @@
 using Filminurk.Core.Domain;
 using Filminurk.Core.Dto.OmdbDTOs;
 using Filminurk.Core.ServiceInterface;
+using Filminurk.Data;
 using Filminurk.Models.Omdb;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,8 +11,14 @@ namespace Filminurk.Controllers
     public class OmdbController : Controller
     {
         private readonly IOmdbServices _omdbServices;
-        public OmdbController(IOmdbServices omdbServices)
+        private readonly FilminurkTARpe24Context _context;
+        public OmdbController
+            (
+            IOmdbServices omdbServices,
+            FilminurkTARpe24Context context
+            )
         {
+            _context = context;
             _omdbServices = omdbServices;
         }
 
@@ -67,5 +74,60 @@ namespace Filminurk.Controllers
             return View("Import", vm);
         }
 
+
+        [HttpGet]
+        public IActionResult Import(string title)
+        {
+            OmdbResultDTO dto = new();
+            dto.Title = title;
+            _omdbServices.OmdbRootSearchResult(title);
+            OmdbResultViewModel vm = new();
+            vm.Title = dto.Title;
+            vm.Released = dto.Released;
+            if (!string.IsNullOrEmpty(dto.Genre) &&
+                Enum.TryParse(dto.Genre.Split(',')[0].Trim(), true, out Genre parsedGenre))
+            {
+                vm.Genre = parsedGenre;
+            }
+            else
+            {
+                vm.Genre = Genre.Unknown;
+            }
+            vm.Director = dto.Director;
+            vm.Actors = dto.Actors;
+            vm.Description = dto.Description;
+            vm.imdbRating = dto.imdbRating;
+            return View("Import", vm);
+        }
+
+        [HttpPost]
+        public IActionResult Import(OmdbResultViewModel vm)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var dto = new OmdbImportMovieDTO()
+                {
+                    Id = Guid.NewGuid(),
+                    Title = vm.Title,
+                    FirstPublished = DateOnly.Parse(vm.Released),
+                    Genre = vm.Genre,
+                    Director = vm.Director,
+                    Actors = vm.Actors?.Split(',').Select(a => a.Trim()).ToList(),
+                    Description = vm.Description,
+                    CurrentRating = double.TryParse(vm.imdbRating, out double rating) ? rating : (double?)null,
+                    EntryCreatedAt = DateTime.Now,
+                    EntryModifiedAt = DateTime.Now
+                };
+
+                var createdMovie = _omdbServices.CreateMovieFromOmdb(dto);
+
+                if (createdMovie == null)
+                {
+                    return NotFound();
+                }
+            }
+            return View(nameof(Index));
+        }
     }
 }
