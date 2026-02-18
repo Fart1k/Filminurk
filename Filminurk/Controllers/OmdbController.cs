@@ -31,18 +31,28 @@ namespace Filminurk.Controllers
         }
 
         [HttpGet]
-        public IActionResult SearchMovie(string movieTitle)
+        public async Task<IActionResult> SearchMovie(string movieTitle)
         {
-            OmdbResultDTO dto = new();
-            dto.Title = movieTitle;
-            _omdbServices.OmdbRootSearchResult(dto);
+            var dto = await _omdbServices.OmdbRootSearchResult(movieTitle);
+
+            if (dto == null || dto.Response == "False")
+            {
+                return View("Import", new OmdbResultViewModel
+                {
+                    Title = movieTitle,
+                    Genre = Genre.Unknown
+                });
+            }
+
             OmdbResultViewModel vm = new();
+
             vm.Title = dto.Title;
             vm.Released = dto.Released;
+
             if (!string.IsNullOrEmpty(dto.Genre) &&
-                Enum.IsDefined(typeof(Genre), dto.Genre))
+                Enum.TryParse(dto.Genre.Split(',')[0].Trim(), true, out Genre parsedGenre))
             {
-                vm.Genre = (Genre)Enum.Parse(typeof(Genre), dto.Genre);
+                vm.Genre = parsedGenre;
             }
             else
             {
@@ -51,10 +61,11 @@ namespace Filminurk.Controllers
 
             vm.Director = dto.Director;
             vm.Actors = dto.Actors;
-            vm.Description = dto.Description;
+            vm.Description = dto.Plot;
             vm.imdbRating = dto.imdbRating;
 
             return View("Import", vm);
         }
+
     }
 }
