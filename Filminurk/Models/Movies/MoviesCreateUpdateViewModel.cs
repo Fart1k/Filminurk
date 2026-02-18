@@ -14,8 +14,8 @@ namespace Filminurk.Models.Movies
         public double? CurrentRating { get; set; }
 
         /* Kaasasolevate piltide andmeomadused */
-        public List<IFormFile> Files { get; set; }
-        public List<ImageViewModel> Images { get; set; } = new List<ImageViewModel>();
+        public List<IFormFile>? Files { get; set; }
+        public List<ImageViewModel>? Images { get; set; } = new List<ImageViewModel>();
 
         // 3 minu andme
 

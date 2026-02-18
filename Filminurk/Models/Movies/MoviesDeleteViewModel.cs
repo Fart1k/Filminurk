@@ -13,7 +13,7 @@ namespace Filminurk.Models.Movies
         public double? CurrentRating { get; set; }
 
         /* Kaasasolevate piltide andmeomadused */
-        public List<ImageViewModel> Images { get; set; } = new List<ImageViewModel>();
+        public List<ImageViewModel>? Images { get; set; } = new List<ImageViewModel>();
 
         // 3 minu andme
 

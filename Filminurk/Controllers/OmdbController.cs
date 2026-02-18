@@ -101,7 +101,7 @@ namespace Filminurk.Controllers
         }
 
         [HttpPost]
-        public IActionResult Import(OmdbResultViewModel vm)
+        public async Task<IActionResult> Import (OmdbResultViewModel vm)
         {
 
             if (ModelState.IsValid)
@@ -110,7 +110,6 @@ namespace Filminurk.Controllers
                 {
                     Id = Guid.NewGuid(),
                     Title = vm.Title,
-                    FirstPublished = DateOnly.Parse(vm.Released),
                     Genre = vm.Genre,
                     Director = vm.Director,
                     Actors = vm.Actors?.Split(',').Select(a => a.Trim()).ToList(),
@@ -120,7 +119,16 @@ namespace Filminurk.Controllers
                     EntryModifiedAt = DateTime.Now
                 };
 
-                var createdMovie = _omdbServices.CreateMovieFromOmdb(dto);
+                if (vm.Released == "N/A")
+                {
+                    dto.FirstPublished = DateOnly.MinValue;
+                }
+                else
+                {
+                    dto.FirstPublished = dto.FirstPublished = DateOnly.Parse(vm.Released);
+                }
+
+                    var createdMovie = await _omdbServices.CreateMovieFromOmdb(dto);
 
                 if (createdMovie == null)
                 {

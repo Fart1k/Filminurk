@@ -32,7 +32,7 @@ namespace Filminurk.ApplicationServices.Services
             }
         }
 
-        public Movie CreateMovieFromOmdb(OmdbImportMovieDTO dto)
+        public async Task<Movie> CreateMovieFromOmdb(OmdbImportMovieDTO dto)
         {
             Movie movie = new();
             movie.ID = (Guid)dto.Id;
@@ -47,8 +47,9 @@ namespace Filminurk.ApplicationServices.Services
             movie.EntryCreatedAt = DateTime.Now;
             movie.EntryModifiedAt = DateTime.Now;
 
-            _context.Movies.Add(movie);
-            _context.SaveChangesAsync();
+            await _context.Movies.AddAsync(movie);
+            await _context.SaveChangesAsync();
+
             return movie;
         }
     }

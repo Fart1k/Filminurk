@@ -12,6 +12,6 @@ namespace Filminurk.Core.ServiceInterface
     {
         Task<OmdbRootDTO> OmdbRootSearchResult(string title);
 
-        Movie CreateMovieFromOmdb(OmdbImportMovieDTO dto);
+        Task<Movie> CreateMovieFromOmdb(OmdbImportMovieDTO dto);
     }
 }
