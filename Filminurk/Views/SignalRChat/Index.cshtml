@@ -38,9 +38,12 @@
         document.getElementById("sendMessage")
             .addEventListener("click", function () {
 
-                const message = document.getElementById("message").value;
+                const input = document.getElementById("message");
+                const message = input.value;
 
                 connection.invoke("SendMessage", message)
+
+                input.value = "";
             });
     </script>
 
