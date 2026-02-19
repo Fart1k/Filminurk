@@ -45,9 +45,11 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Omdb" asp-action="Index">Omdb api</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="SignalRChat" asp-action="Index">ChatHub</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-
                     </ul>
                     <ul>
                         @if (signInManager.IsSignedIn(User))
