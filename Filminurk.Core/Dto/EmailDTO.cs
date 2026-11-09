@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Filminurk.Core.Dto
+﻿namespace Filminurk.Core.Dto
 {
     public class EmailDTO
     {
-        public string SendToThisAdress { get; set; }
-        public string EmailSubject { get; set; }
-        public string EmailContent { get; set; }
+        public required string SendToThisAdress { get; set; }
+        public required string EmailSubject { get; set; }
+        public required string EmailContent { get; set; }
     }
 }

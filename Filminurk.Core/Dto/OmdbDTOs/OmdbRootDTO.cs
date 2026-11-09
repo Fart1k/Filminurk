@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Filminurk.Core.Dto.OmdbDTOs
+﻿namespace Filminurk.Core.Dto.OmdbDTOs
 {
     public class OmdbRootDTO
     {
@@ -33,6 +27,5 @@ namespace Filminurk.Core.Dto.OmdbDTOs
         public string Production { get; set; }
         public string Website { get; set; }
         public string Response { get; set; }
-        
     }
 }

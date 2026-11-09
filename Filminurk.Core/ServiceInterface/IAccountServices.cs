@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Filminurk.Core.Domain;
+﻿using Filminurk.Core.Domain;
 using Filminurk.Core.Dto.AccountsDTOs;
 
 namespace Filminurk.Core.ServiceInterface
@@ -12,6 +7,5 @@ namespace Filminurk.Core.ServiceInterface
     {
         Task<ApplicationUser> Register(ApplicationUsersDTOs userDTO);
         Task<ApplicationUser> Login(LoginDTO userDTO);
-
     }
 }

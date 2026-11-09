@@ -1,5 +1,4 @@
-﻿
-namespace Filminurk.Core.Dto.AccuWeatherDTOs
+﻿namespace Filminurk.Core.Dto.AccuWeatherDTOs
 {
     public class AccuCityCodeRootFlatDTO
     {
